@@ -5,7 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
 
+import java.util.concurrent.TimeUnit;
 
+import static common.CONST.CONST.BRAOWSER_WAITING_TIME;
 import static common.Config.SRC_CHROM_GRIVER;
 public class Actions {
     public static WebDriver createDriver(String browser) {
@@ -19,7 +21,7 @@ public class Actions {
                 Assert.fail("Неподдерживаемая браузер: " + browser);
                 break;
         }
-        //TODO возможно нужно дабавить ожидание но вятли
+        driver.manage().timeouts().implicitlyWait(BRAOWSER_WAITING_TIME, TimeUnit.SECONDS);
         return driver;
     }
 }
