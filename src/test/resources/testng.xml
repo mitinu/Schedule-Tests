@@ -3,7 +3,7 @@
 <suite name="All Test Suite">
     <test name="Demo">
         <classes>
-            <class name="Tests.UploadingDataTest"/>
+            <class name="Tests.ButtonTest"/>
         </classes>
     </test>
 </suite>
