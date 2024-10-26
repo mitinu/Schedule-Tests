@@ -11,7 +11,6 @@ import java.time.Duration;
 import org.openqa.selenium.Alert;
 
 import static common.CONST.CONST.ITEM_WAITING_TIME;
-import static common.CONST.LOCALSTOTAGE.*;
 
 
 public class HeadPage extends BasePage{
@@ -20,10 +19,11 @@ public class HeadPage extends BasePage{
         super(driver);
     }
     private final By byUploadingData = By.xpath("//input[contains(@value, 'обновлениен')]");
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(ITEM_WAITING_TIME));
 
 
     public HeadPage clikUploadingData(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(ITEM_WAITING_TIME));
+
         WebElement uploadButton = wait.until(ExpectedConditions.elementToBeClickable(byUploadingData));
         uploadButton.click();
         return this;
@@ -43,6 +43,7 @@ public class HeadPage extends BasePage{
     }
     protected void checkDontNullLocalStorage(String key){
         String script = "return window.localStorage.getItem(arguments[0]);";
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(ITEM_WAITING_TIME));
         wait.until(driver -> {
             String value = (String) ((JavascriptExecutor) driver).executeScript(script, key);
             return value != null;
@@ -51,6 +52,7 @@ public class HeadPage extends BasePage{
     public HeadPage checkLocalStorage(){
         checkDontNullLocalStorage(LOCALSTOTAGE.BASICDATA);
         checkDontNullLocalStorage(LOCALSTOTAGE.SAVECONFIG);
+
 //        String value = (String) ((JavascriptExecutor) driver).executeScript(script, key);
 //        JSONObject jsonObject = new JSONObject(value);
 //        System.out.println("Значение для ключа '" + key + "': " + jsonObject);
