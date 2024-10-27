@@ -23,12 +23,19 @@ public class ButtonTest extends BaseTest{
     @Test
     public void clikSaveConfigTest() {
         headPage.open(urlHead);
-        headPage.clikUploadingData().acceptAlert();
 
-        int indexOffical = 0;
+        int indexOfficalAddProfessor = 0;
         int indexDay = 0;
         int indexParoue = 0;
-        headPage.clikinputSwitcPffical(indexOffical, indexDay, indexParoue).clikSaveCongig().chekSaveConfig(indexOffical, indexDay, indexParoue);
+        headPage.clikUploadingData().acceptAlert()
+
+                .clikinputSwitcOffical(indexOfficalAddProfessor, indexDay, indexParoue)
+                .clikinputSwitcProfessor(indexOfficalAddProfessor, indexDay, indexParoue)
+
+                .clikSaveCongig()
+
+                .chekSaveConfigOffice(indexOfficalAddProfessor, indexDay, indexParoue)
+                .chekSaveConfigProfessor(indexOfficalAddProfessor, indexDay, indexParoue);
     }
 
 

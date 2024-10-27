@@ -1,8 +1,6 @@
 package pages;
 
 import common.CONST.LOCALSTOTAGE;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -26,24 +24,33 @@ public class HeadPage extends BasePage{
     private final By bySaveCongig = By.id("save_config");
 
 
-    public HeadPage clikinputSwitcPffical(int indexOffical, int indexDay, int indexParoue){
-        By byInputSwitcPffical = By.xpath(String.format("//div[contains(@class, 'carts_office_sort')][%d]//div[contains(@class, 'day_office%d')]//div[contains(@class, 'profesor_stule')][%d]//input",
+    public HeadPage clikinputSwitcOffical(int indexOffical, int indexDay, int indexParoue){
+        By byInputSwitcOffica = By.xpath(String.format("//div[contains(@class, 'carts_office_sort')][%d]//div[contains(@class, 'day_office%d')]//div[contains(@class, 'offical_stule')][%d]//input",
                 indexOffical+1, indexDay+1, indexParoue+1));
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(ITEM_WAITING_TIME));
-        WebElement elementInputSwitcPffical = wait.until(ExpectedConditions.elementToBeClickable(byInputSwitcPffical));
-        elementInputSwitcPffical.click();
+        WebElement elementInputSwitcOffical = wait.until(ExpectedConditions.elementToBeClickable(byInputSwitcOffica));
+        elementInputSwitcOffical.click();
         return this;
     }
+
+    public HeadPage clikinputSwitcProfessor(int indexProfessor, int indexDay, int indexParoue){
+        By byInputSwitcProfessor = By.xpath(String.format("//div[contains(@class, 'carts_professor_sort')][%d]//div[contains(@class, 'day_professor%d')]//div[contains(@class, 'profesor_stule')][%d]//input",
+                indexProfessor+1, indexDay+1, indexParoue+1));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(ITEM_WAITING_TIME));
+        WebElement elementInputSwitcProfessor = wait.until(ExpectedConditions.elementToBeClickable(byInputSwitcProfessor));
+        elementInputSwitcProfessor.click();
+        return this;
+    }
+
 
     public HeadPage clikSaveCongig(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(ITEM_WAITING_TIME));
         WebElement elementSaveCongig = wait.until(ExpectedConditions.elementToBeClickable(bySaveCongig));
         elementSaveCongig.click();
-
         return this;
     }
 
-    public HeadPage chekSaveConfig(int indexOffical, int indexDay, int indexParoue){
+    public HeadPage chekSaveConfigOffice(int indexOffical, int indexDay, int indexParoue){
         String script = "return window.localStorage.getItem(arguments[0]);";
         String key = LOCALSTOTAGE.SAVECONFIG;
 
@@ -55,10 +62,22 @@ public class HeadPage extends BasePage{
 
         String value = (String) ((JavascriptExecutor) driver).executeScript(script, key);
 
-        checkBoolean(new JSONObject(value).getJSONArray("finallArrOffice").getJSONObject(indexOffical).getJSONArray("days_parrys").getJSONArray(indexDay).getBoolean(indexParoue));
+        checkBooleanFalse(new JSONObject(value).getJSONArray("finallArrOffice").getJSONObject(indexOffical).getJSONArray("days_parrys").getJSONArray(indexDay).getBoolean(indexParoue));
         return this;
     }
-    public static void checkBoolean(boolean value) {
+    public HeadPage chekSaveConfigProfessor(int indexOffical, int indexDay, int indexParoue){
+        String script = "return window.localStorage.getItem(arguments[0]);";
+        String key = LOCALSTOTAGE.SAVECONFIG;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(ITEM_WAITING_TIME));
+        wait.until(driver -> {
+            String value = (String) ((JavascriptExecutor) driver).executeScript(script, key);
+            return value != null;
+        });
+        String value = (String) ((JavascriptExecutor) driver).executeScript(script, key);
+        checkBooleanFalse(new JSONObject(value).getJSONArray("finallArrProfessor").getJSONObject(indexOffical).getJSONArray("days_parrys").getJSONArray(indexDay).getBoolean(indexParoue));
+        return this;
+    }
+    public static void checkBooleanFalse(boolean value) {
         if (value) {
             throw new IllegalArgumentException("Значение должно быть false, получено true.");
         }
